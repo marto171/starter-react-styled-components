@@ -36,8 +36,11 @@ Welcome to the React Starter with Styled Components project! This repository pro
 - `src/`: Contains all the source code for your React application.
   - `config/`: Store your configuration files here. There is already axios configuration.
   - `context/`: Store your context files here. There is already dark mode provider.
+  - `features/`: Store your main approaches in folders here.
+    - `authentication/`: Store everything related to authentication in this folder.
   - `hooks/`: Store your context files here. There are 3 predefined hooks, which are really helpful in different situations.
   - `pages/`: Store your pages here.
+  - `services/`: Store your logic here. For example add function exports like mutationSignup, mutationLogic with your own logic there.
   - `styles/`: Store your styled components or global stylesheets here.
   - `ui/`: Store your UI components here. There are many predefined components that you can use.
   - `utils/`: Store your utility functions here.
