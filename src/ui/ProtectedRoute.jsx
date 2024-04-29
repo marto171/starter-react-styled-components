@@ -1,7 +1,8 @@
-import styled from "styled-components";
-import Spinner from "./Spinner";
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import styled from 'styled-components';
+import Spinner from './Spinner';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useUser } from '../features/authentication/useUser.js';
 
 const FullPage = styled.div`
   height: 100vh;
@@ -11,16 +12,17 @@ const FullPage = styled.div`
   justify-content: center;
 `;
 
-function ProtectedRoute({ children, useContext, requireAuthentication = true, navigateFallback = "/login"}) {
+function ProtectedRoute({ children, requireAuthentication = true, navigateFallback = '/home' }) {
   const navigate = useNavigate();
 
-  const { isLoading, isAuthorized } = useContext();
+  const { isLoading, isAuthenticated } = useUser();
 
   useEffect(
     function () {
-      if ((!isAuthorized && !isLoading && requireAuthentication) || (isAuthorized && !isLoading && !requireAuthentication)) navigate(navigateFallback);
+      if ((!isAuthenticated && !isLoading && requireAuthentication) || (isAuthenticated && !isLoading && !requireAuthentication))
+        navigate(navigateFallback, { replace: true });
     },
-    [isAuthorized, isLoading, navigate, navigateFallback, requireAuthentication]
+    [isAuthenticated, isLoading, navigate, navigateFallback, requireAuthentication]
   );
 
   if (isLoading)
@@ -30,7 +32,8 @@ function ProtectedRoute({ children, useContext, requireAuthentication = true, na
       </FullPage>
     );
 
-  if (isAuthorized) return children;
+  if ((isAuthenticated && requireAuthentication) || (!isAuthenticated && !requireAuthentication)) return children;
+  else return null;
 }
 
 export default ProtectedRoute;
